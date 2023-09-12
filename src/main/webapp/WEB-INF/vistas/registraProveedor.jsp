@@ -26,30 +26,30 @@
 				</div>
 				<div class="form-group col-md-3">
 					<label class="control-label" for="id_dni">DNI</label>
-					<input class="form-control" id="id_dni" name="dni" placeholder="Ingrese el DNI" type="text" maxlength="2"/>
+					<input class="form-control" id="id_dni" name="dni" placeholder="Ingrese el DNI" type="text" maxlength="8"/>
 				</div>
 				<div class="form-group col-md-3">
 					<label class="control-label" for="id_fecha_registro">Fecha Registro</label>
-					<input class="form-control" id="id_fecha_registro" name="fechaRegistro" placeholder="Ingrese la Fecha Registro" type="date" maxlength="2"/>
+					<input class="form-control" id="id_fecha_registro" name="fechaRegistro" placeholder="Ingrese la Fecha Registro" type="date" maxlength="100"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-md-3">
-					<label class="control-label" for="id_tipo">ID TIPO</label>
-					<select id="id_tipo" name="tipo.idtipo" class='form-control'>
+					<label class="control-label" for="id_tipo">TIPO</label>
+					<select id="id_tipo" name="tipo.idTipo" class='form-control'>
 						<option value=" ">[Seleccione]</option>    
 					</select>
 			    </div>
 				<div class="form-group col-md-3">
-					<label class="control-label" for="id_pais">ID PAIS</label>
-					<select id="id_pais" name="pais.idpais" class='form-control'>
+					<label class="control-label" for="id_pais">PAIS</label>
+					<select id="id_pais" name="pais.idPais" class='form-control'>
 						<option value=" ">[Seleccione]</option>    
 					</select>
 			    </div>
 		    </div>
 		    <div class="row">
 				<div class="form-group col-md-12" align="center">
-					<button id="id_registrar" type="button" class="btn btn-primary" >Registra</button>
+					<button id="id_registrar" type="button" class="btn btn-primary" >Registrar Proveedor</button>
 				</div>
 			</div>
 	</div>
@@ -62,7 +62,14 @@
 $.getJSON("listaPais", {}, function(data){
 	console.log(data)
 	$.each(data, function(index,item){
-		$("#id_pais").append("<option value="+item.idPais +">"+ item.idPais +"</option>");
+		$("#id_pais").append("<option value="+item.idPais +">"+ item.nombre +"</option>");
+	});
+});
+
+$.getJSON("listaTipo", {}, function(data){
+	console.log(data)
+	$.each(data, function(index,item){
+		$("#id_tipo").append("<option value="+item.idTipo +">"+ item.descripcion +"</option>");
 	});
 });
 
@@ -117,7 +124,7 @@ $('#id_form').bootstrapValidator({
                 },
                 remote :{
                 	delay: 1000,
-                	url: 'buscaPorNombreModalidad',
+                	url: 'buscaPorNombreProveedor',
                 	message: 'El nombre ya existe'
                 }
             }
@@ -126,11 +133,16 @@ $('#id_form').bootstrapValidator({
             selector: "#id_dni",
             validators:{
                 notEmpty: {
-                     message: 'El dni es obligatorio'
+                     message: 'El DNI es obligatorio'
                 },
                 regexp: {
                     regexp: /^[0-9]{8}$/,
-                    message: 'el dni es 8 dígitos'
+                    message: 'el DNI es 8 dígitos'
+                },
+                remote :{
+                	delay: 200,
+                	url: 'buscaPorDniProveedor',
+                	message: 'El DNI ya existe'
                 }
             }
         },
@@ -142,15 +154,15 @@ $('#id_form').bootstrapValidator({
                 }
             }
         },
-        dni:{
+        tipo:{
             selector: "#id_tipo",
             validators:{
                 notEmpty: {
                      message: 'El tipo es obligatorio'
-                },
+                }
             }
         },
-        deporte: {
+        pais: {
     		selector : '#id_pais',
             validators: {
             	notEmpty: {

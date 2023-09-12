@@ -224,7 +224,6 @@ $('#id_form').bootstrapValidator({
                 },
             }
         },
-    	
     }   
 });
 </script>

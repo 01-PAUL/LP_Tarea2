@@ -36,9 +36,9 @@ public class Proveedor {
 	
 	@ManyToOne
 	@JoinColumn(name = "idTipo")
-	private Tipo idTipo;
+	private Tipo tipo;
 	
 	@ManyToOne
 	@JoinColumn(name = "idPais")
-	private int idPais;
+	private Pais pais;
 }
